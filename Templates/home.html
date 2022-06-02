@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{%load static%}
+{% block title %}Home - Finder {% endblock %}
+{% block CSS %} 
+{% endblock %}
+  
+{% block body %}
+
+    
+    <!------------ Home Page  -------------->
+    <div class="home-page">
+        <div class="container">
+           <div class="input-post">
+               <div class="profile-info">
+                   {%if user_data.profile_pic%}
+                   <div class="profile-image">
+                     <img src="{{user_data.profile_pic.url}}" alt="">
+                   </div>
+                   {%endif%}
+                   <div class="profile-user">
+                       <h4>{{request.user.first_name}} {{request.user.last_name}}</h4>
+                       <p>@{{request.user.username}}</p>
+                   </div>
+               </div>
+               <div class="inputForm">
+                   <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                       <textarea name="post_text" id="text" placeholder="Add a post" rows="4"></textarea>
+                       <input type="file" name="post_img" id="post_image">
+                       <button type="submit" id="post-btn">Post</button>
+                   </form>
+               </div>
+           </div>
+           <hr id="page-hr">
+
+             <!------------ POSTS  -------------->
+             
+             {% for post in all_posts %}
+             
+                     <div class="post">
+                         <div class="profile-info">
+                             <div class="profile-image">
+                                 <img src="{{post.creator.profile_pic.url}}" alt="">
+                             </div>
+                             <div class="profile-user">
+                                   <h4>{{post.creator.first_name}} {{post.creator.last_name}}</h4>
+                                   <p>@{{post.creator.username}}</p>
+                             </div>
+                             <div class="date">
+                                   <h4>{{post.date_created}}</h4>
+                             </div>
+                         </div>
+                         <hr id="post-row">
+                         <div class="post-text">
+                            <p> {{post.post_text}} </p>
+                         </div>
+                         <div class="post-img">
+                             <img src="{{post.post_img.url}}" alt="">
+                         </div>
+                         <div class="buttons">
+                             <div class="post-button">
+                                <a href="/like/{{post.id}}"> <button>Like ({{post.likers.count}})</button></a>
+                             </div>
+                             {% if post.creator == request.user %}
+                             <div class="post-button">
+                                <a href="/delete/{{post.id}}"> <button>Delete</button></a>
+                             </div>
+                             {% else %}
+                             <div class="post-button">
+                                <a href="/save/{{post.id}}"> <button>Save</button></a>
+                             </div>
+                             {% endif %}
+                         </div>  
+                    </div>
+             {%endfor%}
+        </div>
+    </div>
+
+    {% endblock %}
+
+    {% block js %}
+    {% endblock %}

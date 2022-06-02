@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{%load static%}
+{% block title %}Profile - Finder {% endblock %}
+{% block CSS %} 
+<link rel="stylesheet" href="{% static 'CSS/profilepage.css'%}">
+{% endblock %}
+  
+{% block body %}
+
+ 
+    
+    <!------------ Profile Page  -------------->
+    <div class="home-page">
+        <div class="container">
+           <div class="User">
+               {%if username.profile_pic%}
+               <div class="user-img">
+                  <img src="{{username.profile_pic.url}}" alt="">
+               </div>
+               {% else %}
+               <div class="user-img">
+                  <img src="{% static 'images/default.png'%}" alt="">
+               </div>
+               {% endif%}
+               <div class="User-info">
+                   <h3>{{username.first_name}} {{username.last_name}}</h3>
+                   <h4>@{{username.username}}</h4>
+                   <p> {{username.bio}}</p>
+                        <div class="data-container">
+                        <div class="user-data">
+                        <h2>{{post_count}}</h2>
+                        <h4>Posts</h4>
+                    </div>  
+                    
+                    <div class="user-data">
+                        <h2>{{follower_count}}</h2>
+                        <h4>Followers</h4>
+                    </div>    
+                    <div class="user-data">
+                        <h2>{{following_count}}</h2>
+                        <h4>Following</h4>
+                    </div>
+                </div>     
+               </div>
+               
+               {% if user.username == username.username %}
+               <div class="user-btn">
+                <button id="edit-profile">Edit Profile</button>
+               </div>
+
+               {% elif is_follower %}
+               <div class="user-btn">
+                <a href="/follow/{{username.username}}"><button style="background: blueviolet; color:white;" >  Following  </button></a>
+               </div>
+
+               {% else %}
+               <div class="user-btn">
+                <a href="/follow/{{username.username}}"> <button style="background: blueviolet; color:white;" >Follow</button></a>
+               </div>
+               {% endif %}
+           </div>
+
+           
+            <!---  Popup  ---->
+
+        <div class="popup center">
+            <div class="popup-title">
+                Edit Profile     
+                 <button class="dismiss-btn" id="dismiss-popup-btn">
+                    Back
+                 </button>
+            </div>
+            <div class="description">
+               <form enctype="multipart/form-data" method="post"> {% csrf_token %}
+                   <div class="edit-input">
+                        <span class="edit-title">
+                           Image  :   
+                        </span>   
+                        <input type="file" name="profile_image" id="">
+                   </div>
+
+                    <div class="edit-input">
+                        <span class="edit-title" id="bioo">
+                          Bio  :   
+                        </span>
+                        <input type="text" name="bio" id="texty">
+                    </div>
+ 
+                    <button type="submit" class="dismiss-btn" id="save-btn">
+                        Save
+                    </button>    
+               </form>
+            </div>
+        </div>
+    
+        
+
+
+           {%for post in all_posts %}
+           <hr id="page-hr">
+           <div class="post">
+                <div class="profile-info">
+                    <div class="profile-image">
+                        <img src="{{post.creator.profile_pic.url}}" alt="">
+                    </div>
+                    <div class="profile-user">
+                          <h4>{{post.creator.first_name}} {{post.creator.last_name}}</h4>
+                          <p> @{{post.creator.username}}</p>
+                    </div>
+                    <div class="date">
+                          <h4>{{post.date_created}}</h4>
+                    </div>
+                </div>
+                <hr id="post-row">
+                <div class="post-text">
+                   <p style="font-size: 16px;"> {{post.post_text}}</p>
+                </div>
+                {%if post.post_img %}
+                <div class="post-img">
+                    <img src="{{post.post_img.url}}" alt="">
+                </div>
+                {%endif%}
+                <div class="buttons">
+                    <div class="post-button">
+                       <a href="/like/{{post.id}}"> <button>Like ({{post.likers.count}})</button></a>
+                    </div>
+                    {% if post.creator == request.user %}
+                    <div class="post-button">
+                       <a href="/delete/{{post.id}}"> <button>Delete</button></a>
+                    </div>
+                    {% else %}
+                    <div class="post-button">
+                       <a href="/save/{{post.id}}"> <button>Save</button></a>
+                    </div>
+                    {% endif %}
+                </div>   
+           </div>
+{% endfor %}
+           
+            </div>  
+       </div>
+
+
+
+        </div>
+    </div>
+
+   
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/profile.js' %}"></script>
+{% endblock %}

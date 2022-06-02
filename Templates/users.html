@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{%load static%}
+{% block title %}All users - Finder {% endblock %}
+{% block CSS %} 
+<link rel="stylesheet" href="{% static 'CSS/users.css'%}">
+{% endblock %}
+  
+{% block body %}
+
+   <!------------ Userss Page  -------------->
+    <div class="home-page">
+        <div class="container">
+           
+            {% for user in all_users %}
+
+           <div class="User">
+               <div class="user-img">
+               
+               <a href="/Profile/{{user.username}}" style="margin:0; padding:0; color:black;">
+                {% if user.profile_pic %}
+                 <img src="{{user.profile_pic.url}}" alt="">
+                {% else %}
+                <img src="{% static 'images/default.png'%}" alt="">
+                {%endif%}
+                </a>  
+               
+               </div>
+               <div class="User-info">
+                 <a href="/Profile/{{user.username}}" style="margin:0; padding:0; color:black;"> <h3>{{user.first_name}} {{user.last_name}}</h3>
+                   <h4>@{{user.username}}</h4> </a> 
+                   <div class="user-btn">
+                    <a href="/follow/{{user.username}}"><button>Follow</button></a>
+                   </div>
+               </div>
+           </div>
+           <hr id="page-hr">
+
+            {% endfor %}
+            
+
+        </div>
+    </div>
+   
+{% endblock %}
+{% block js %}
+{% endblock %}

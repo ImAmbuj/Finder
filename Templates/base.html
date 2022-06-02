@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width-device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    {% block CSS %}
+    {% endblock %}
+    <link rel="stylesheet" type="text/css" href="{%static 'CSS/index.css'%}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <h2>Finder</h2>
+                </div>
+                <nav>
+                    <ul>
+                        <a href="/Home"><li>Home</li>    </a>
+                        <a href="/Profile/{{request.user.username}}"><li>Profile</li> </a>
+                        <a href="/Users"><li>Users</li></a>
+                        <a href="/Saved"><li>Saved</li>   </a>
+                        {% if user.is_authenticated %}
+                        <a href="/logout"><li>Logout</li>   </a>
+                        {% else %}
+                        <a href="/"><li>Login</li>   </a>
+                        {%endif%}
+                    </ul>
+                </nav> 
+                <img src="{% static 'images/menu.png'%}" class="menu-icon" onclick="menutoggle()">
+            </div>
+        </div>  
+    </div>
+
+{% block body %}{% endblock %}
+
+     <!-------  Footer ------->
+
+<div class="footer">
+    <div class="container">
+        <hr>
+        <p class="copyright">Copyright 2022 - Finder</p>
+    </div>
+</div>
+
+
+
+
+
+     <!--Javascript for toggle menu-->
+     <script>
+         var MenuItems = document.getElementById("MenuItems");
+         MenuItems.style.maxHeight = "0px";
+         function menutoggle(){
+             if( MenuItems.style.maxHeight == "0px")
+             {
+                MenuItems.style.maxHeight = "200px";
+             }
+             else
+             {
+                MenuItems.style.maxHeight = "0px";
+             }
+         }
+         
+     </script>
+   
+  {% block js %} {% endblock %}
+    </body>
+</html>

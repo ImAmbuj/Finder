@@ -1,0 +1,44 @@
+.User .user-img img{
+    max-width: 100px;
+    height: auto;
+}
+.User{
+    display: flex;
+    max-width: 600px;
+    margin: 10px auto;
+}
+.User-info {
+    margin-left: 30px;
+}
+.User-info p {
+    max-width: 250px;
+    margin-top: 10px;
+}
+.User-info h4{
+    color: #555555;
+}
+.data-container{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.user-data{
+    justify-content: space-between;
+}
+.user-data h2{
+    text-align: center;
+}
+.user-data h4{
+    text-align: center;
+    color: #555555;
+}
+.user-btn button{
+    margin-top: 18px;
+    padding: 8px 20px 8px 20px;
+    border-radius: 6px;
+    font-size: 16px;
+    position: relative;
+    background-color: cornflowerblue;
+    color: white;
+    border: none;
+}
